@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@theme {
+  --color-terracotta: #C1502E;
+  --color-maroon: #7A2E2E;
+  --color-gold: #D9A441;
+  --color-sand: #F5EDE0;
+  --color-ink: #211812;
+  --color-charcoal: #2B2118;
+
+  --font-heading: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+body {
+  background-color: var(--color-sand);
+  color: var(--color-charcoal);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+}
