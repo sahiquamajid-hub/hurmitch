@@ -26,7 +26,20 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'No audio returned', raw: data })
     }
 
-    const pcmBuffer = Buffer.from(base64Pcm, 'base64')
+    let pcmBuffer = Buffer.from(base64Pcm, 'base64')
+
+    // Trim ~150ms off the very end to remove the trailing artifact/glitch
+    // 24000 Hz * 16-bit (2 bytes) * mono = 48000 bytes per second
+    const trimBytes = Math.floor(0.15 * 48000)
+    if (pcmBuffer.length > trimBytes) {
+        pcmBuffer = pcmBuffer.subarray(0, pcmBuffer.length - trimBytes)
+    }
+
+    // Ensure even byte length (16-bit samples must align to 2-byte boundaries)
+    if (pcmBuffer.length % 2 !== 0) {
+        pcmBuffer = pcmBuffer.subarray(0, pcmBuffer.length - 1)
+    }
+
     const wavBuffer = pcmToWav(pcmBuffer, 24000, 1, 16)
     res.status(200).json({ audio: wavBuffer.toString('base64') })
 }
