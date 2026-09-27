@@ -1,9 +1,19 @@
 import { motion } from 'motion/react'
 import { Link } from 'react-router-dom'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Sparkles, Scale, Diamond } from 'lucide-react'
 import { products } from '../data/products'
 import ProductCard from '../components/ProductCard'
 import Reveal from '../components/Reveal'
+
+function Sparkle({ top, left, size = 6, delay = 0 }) {
+    return (
+        <span
+            className="sparkle"
+            style={{ top, left, width: size, height: size, animationDelay: `${delay}s` }}
+            aria-hidden="true"
+        />
+    )
+}
 
 export default function Home() {
     const featured = products.slice(0, 3)
@@ -22,6 +32,14 @@ export default function Home() {
                                     animate-blob animation-delay-4000" />
                 </div>
 
+                {/* Sparkle field — small twinkling mirror-glint dots scattered around the hero */}
+                <Sparkle top="14%" left="12%" size={7} delay={0} />
+                <Sparkle top="24%" left="82%" size={5} delay={0.8} />
+                <Sparkle top="62%" left="8%" size={6} delay={1.6} />
+                <Sparkle top="70%" left="88%" size={8} delay={0.4} />
+                <Sparkle top="8%" left="55%" size={5} delay={2.1} />
+                <Sparkle top="85%" left="48%" size={6} delay={1.2} />
+
                 <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center text-center">
                     {/* Kicker pill */}
                     <motion.div
@@ -35,12 +53,12 @@ export default function Home() {
                         Handstitched in Mithi, Tharparkar
                     </motion.div>
 
-                    {/* Framed spin video */}
+                    {/* Framed spin video with mirror-glint shine sweep */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.94, y: 24 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                        className="relative w-full max-w-xl rounded-[1.75rem] overflow-hidden
+                        className="shine-sweep relative w-full max-w-xl rounded-[1.75rem] overflow-hidden
                                    shadow-2xl border border-white/70 bg-white"
                     >
                         <video
@@ -108,21 +126,82 @@ export default function Home() {
 
             {/* ================= WHAT HURMITCH IS + THE PROBLEM ================= */}
             <Reveal>
-                <section className="px-6 py-16 max-w-3xl mx-auto text-center">
-                    <h2 className="font-heading text-2xl text-maroon">What Hurmitch Is</h2>
-                    <p className="mt-4 text-charcoal/80">
-                        Hurmitch is a direct-to-buyer storefront for Karhai — hand embroidery — artisans in Mithi
-                        and across Tharparkar, paired with a voice-first onboarding Agent so artisans with no tech
-                        literacy can still list their own work, just by sending a photo and speaking a few words.
-                    </p>
+                <section className="relative px-6 py-20 max-w-3xl mx-auto">
+                    {/* faint patterned backdrop card */}
+                    <div className="absolute inset-0 -z-10 mx-4 rounded-[2rem] bg-thar-pattern opacity-70" aria-hidden="true" />
 
-                    <h2 className="font-heading text-2xl text-maroon mt-12">The Problem</h2>
-                    <p className="mt-4 text-charcoal/80">
-                        Karhai artisans in Mithi and across Tharparkar produce internationally recognized
-                        mirror-work embroidery, but sell almost entirely through local middlemen who take the
-                        largest share of the profit. These artisans have no direct way to reach buyers in Karachi,
-                        Lahore, or abroad who would pay real prices for authentic handwork.
-                    </p>
+                    <div className="text-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: -8 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="inline-flex items-center gap-2 text-terracotta mb-3"
+                        >
+                            <Scale size={16} />
+                            <span className="text-xs uppercase tracking-[0.2em] font-semibold">The Problem</span>
+                        </motion.div>
+
+                        <h2 className="font-heading text-3xl text-maroon">Middlemen Take the Margin</h2>
+
+                        <motion.span
+                            initial={{ scaleX: 0 }}
+                            whileInView={{ scaleX: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                            className="block mx-auto mt-3 h-[2px] w-16 bg-terracotta origin-center"
+                        />
+
+                        <p className="mt-6 text-charcoal/80 leading-relaxed">
+                            Karhai artisans in Mithi and across Tharparkar produce internationally recognized
+                            mirror-work embroidery, but sell almost entirely through local middlemen who take the
+                            largest share of the profit. These artisans have no direct way to reach buyers in Karachi,
+                            Lahore, or abroad who would pay real prices for authentic handwork.
+                        </p>
+                    </div>
+
+                    {/* decorative diamond divider */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="flex items-center justify-center gap-3 my-14"
+                        aria-hidden="true"
+                    >
+                        <span className="h-px w-16 bg-maroon/20" />
+                        <Diamond size={14} className="text-gold" />
+                        <span className="h-px w-16 bg-maroon/20" />
+                    </motion.div>
+
+                    <div className="text-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: -8 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="inline-flex items-center gap-2 text-gold mb-3"
+                        >
+                            <Sparkles size={16} />
+                            <span className="text-xs uppercase tracking-[0.2em] font-semibold">Our Story</span>
+                        </motion.div>
+
+                        <h2 className="font-heading text-3xl text-maroon">What Hurmitch Is</h2>
+
+                        <motion.span
+                            initial={{ scaleX: 0 }}
+                            whileInView={{ scaleX: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                            className="block mx-auto mt-3 h-[2px] w-16 bg-gold origin-center"
+                        />
+
+                        <p className="mt-6 text-charcoal/80 leading-relaxed">
+                            Hurmitch is a direct-to-buyer storefront for Karhai — hand embroidery — artisans in Mithi
+                            and across Tharparkar, paired with a voice-first onboarding Agent so artisans with no tech
+                            literacy can still list their own work, just by sending a photo and speaking a few words.
+                        </p>
+                    </div>
                 </section>
             </Reveal>
 
