@@ -6,7 +6,7 @@ export const products = [
         village: "Mithi, Tharparkar",
         price: 3500,
         artisanShare: 85,
-        image: "https://picsum.photos/seed/hurmitch1/600/600",
+        image: "/images/product-mirrorwork-shawl.png",
         description: "Traditional hand embroidered shawl featuring classic Tharparkar mirror-work in geometric patterns."
     },
     {
@@ -16,7 +16,7 @@ export const products = [
         village: "Nagarparkar, Tharparkar",
         price: 1800,
         artisanShare: 85,
-        image: "https://picsum.photos/seed/hurmitch2/600/600",
+        image: "/images/product-cushion-cover.png",
         description: "Hand-stitched cushion cover with floral motifs, made using satin stitch technique."
     },
     {
@@ -26,7 +26,7 @@ export const products = [
         village: "Umerkot, Tharparkar",
         price: 2600,
         artisanShare: 85,
-        image: "https://picsum.photos/seed/hurmitch3/600/600",
+        image: "/images/product-karhai-dupatta.png",
         description: "Lightweight dupatta with intricate thread embroidery along the borders."
     },
     {
