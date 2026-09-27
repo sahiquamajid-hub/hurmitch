@@ -32,7 +32,10 @@ export default function Catalog() {
     fetchListings()
   }, [])
 
-  const allProducts = [...liveProducts, ...sampleProducts]
+  // Filter out the two specific items by their names
+  const allProducts = [...liveProducts, ...sampleProducts].filter(
+    product => product.name !== 'Untitled Piece' && product.name !== 'Mirror-Work Wall Hanging'
+  )
 
   return (
     <div className="px-6 py-10 max-w-6xl mx-auto">
