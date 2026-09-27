@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
     const { audioBase64, mimeType } = req.body
     const apiKey = process.env.GEMINI_API_KEY
-    const model = 'gemini-2.5-flash'
+    const model = 'gemini-3.8-flash'
 
     const prompt = `Yeh ek Pakistani karhai (hand embroidery) artisan ki awazi paigham hai, jisme woh apne kaam ke baare mein bata rahi hai. Is audio ko sun kar neeche di gayi cheezein nikaalain aur SIRF ek valid JSON object return karain, kuch aur likhein na:
 
