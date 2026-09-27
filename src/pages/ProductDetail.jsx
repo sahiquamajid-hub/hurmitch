@@ -1,12 +1,55 @@
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { products } from '../data/products'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase'
+import { products as sampleProducts } from '../data/products'
 
 export default function ProductDetail() {
     const { id } = useParams()
-    const product = products.find(p => p.id === Number(id))
+    const [product, setProduct] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const loadProduct = async () => {
+            if (id.startsWith('live-')) {
+                const realId = id.replace('live-', '')
+                try {
+                    const snap = await getDoc(doc(db, 'pendingListings', realId))
+                    if (snap.exists()) {
+                        const data = snap.data()
+                        setProduct({
+                            id,
+                            name: data.itemName || 'Untitled Piece',
+                            artisan: 'Hurmitch Artisan',
+                            village: 'Mithi, Tharparkar',
+                            price: data.price || '—',
+                            artisanShare: 85,
+                            image: data.photoUrl,
+                            description: data.description || ''
+                        })
+                    }
+                } catch (err) {
+                    console.error('Failed to load live product:', err)
+                }
+            } else {
+                const found = sampleProducts.find(p => p.id === Number(id))
+                if (found) setProduct(found)
+            }
+            setLoading(false)
+        }
+        loadProduct()
+    }, [id])
+
+    if (loading) {
+        return <div className="p-10 text-center">Loading...</div>
+    }
 
     if (!product) {
-        return <div className="p-10">Product not found. <Link to="/catalog" className="text-terracotta">Back to Catalog</Link></div>
+        return (
+            <div className="p-10 text-center">
+                Product not found. <Link to="/catalog" className="text-terracotta">Back to Catalog</Link>
+            </div>
+        )
     }
 
     const whatsappMessage = encodeURIComponent(`Hi! I'm interested in ${product.name} — is it available?`)
@@ -32,16 +75,11 @@ export default function ProductDetail() {
                         </p>
                     </div>
 
-                    <a
-                        href={whatsappLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block mt-6 bg-terracotta text-white px-6 py-3 rounded-lg font-semibold hover:bg-maroon transition-colors"
-                    >
+                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-6 bg-terracotta text-white px-6 py-3 rounded-lg font-semibold hover:bg-maroon transition-colors">
                         Order on WhatsApp
                     </a>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
